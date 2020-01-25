@@ -69,5 +69,8 @@ x64/
 *.log
 *.vspscc
 *.vssscc
-.builds
+*.builds
+*.ide
+*.ide-wal
+*.ide-shm
 
