@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,14 +23,12 @@ namespace JugglingApp
 
         List<int> currentSeq;
         int n;
-        int tmp;
 
         public Form1()
         {
             InitializeComponent();
             currentSeq = new List<int>();
-            n = 15;
-            tmp = 0;
+            n = 16;
             gfx = CreateGraphics();
             Color color = Color.Black;
             pen = new Pen(color, 3);
@@ -38,8 +37,8 @@ namespace JugglingApp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ClearSequence();
             currentSeq.Clear();
+            ClearSequence();
             int tmpSeq = int.Parse(sequenceText.Text);
             while(tmpSeq > 0)
             {
@@ -50,19 +49,23 @@ namespace JugglingApp
             DrawSequence(currentSeq);
         }
         
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            DrawBeats();
-        }
 
         void DrawThrow(int beat, int h)
         {
-            gfx.DrawArc(pen, 100 * beat + 200 + 12, scrHeight * 8 / 10 - 75 * h + 12, 100 * h, 150 * h, 0, -180);
+            if(h != 0)
+            {
+                gfx.DrawArc(pen, 100 * beat + 200 + 12, scrHeight * 8 / 10 - 75 * h + 12, 100 * h, 150 * h, 0, -180);
+            }
         }
 
         List<int> SiteSwap(List<int> sequence, int i, int j)
         {
-            List<int> copy = sequence;
+            List<int> copy = new List<int>();
+            for (int k = 0; k < sequence.Count; k++)
+            {
+                copy.Add(sequence[i]);
+                label2.Text += copy[i].ToString();
+            }
             sequence[i] = copy[j] + j - i;
             sequence[j] = copy[i] + i - j;
             return sequence;
@@ -70,17 +73,19 @@ namespace JugglingApp
 
         void DrawSequence(List<int> sequence)
         {
-            tmp = 0;
-            while (tmp < 15)
+            SolidBrush defaultBrush = new SolidBrush(Form1.DefaultBackColor);
+            int count = -sequence.Max();
+            while (count < n)
             {
                 for (int i = 0; i < currentSeq.Count; i++)
                 {
-                    if (tmp == 15) break;
-                    label2.Text += currentSeq[i] + "a";
-                    DrawThrow(tmp, currentSeq[i]);
-                    tmp++;
+                    if (count == n) break;
+                    DrawThrow(count, currentSeq[i]);
+                    count++;
                 }
             }
+            gfx.FillRectangle(defaultBrush, 0, 0, 150, 1080);
+            gfx.FillRectangle(defaultBrush, 1920 - 150, 0, 1920, 1080);
         }
 
         void DrawBeats()
@@ -100,8 +105,26 @@ namespace JugglingApp
 
         void ClearSequence()
         {
-            SolidBrush whiteBrush = new SolidBrush(Color.White);
-            gfx.FillRectangle(whiteBrush, 0, 0, 1920, 1080);
+            SolidBrush defaultBrush = new SolidBrush(Form1.DefaultBackColor);
+            gfx.FillRectangle(defaultBrush, 0, 0, 1920, 1080);
+            DrawBeats();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Thread.Sleep(1000);
+            DrawBeats();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            currentSeq = SiteSwap(currentSeq, 0, 1);
+            ClearSequence();
+            for (int i = 0; i < currentSeq.Count; i++)
+            {
+                
+            }
+            DrawSequence(currentSeq);
         }
     }
 }
