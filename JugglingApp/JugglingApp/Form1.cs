@@ -21,7 +21,7 @@ namespace JugglingApp
         public int scrHeight = Screen.PrimaryScreen.Bounds.Height;
         public int scrWidth = Screen.PrimaryScreen.Bounds.Width;
 
-        List<int> currentSeq;
+        public List<int> currentSeq;
         int n;
 
         public BaseForm()
@@ -58,7 +58,7 @@ namespace JugglingApp
             }
         }
 
-        List<int> SiteSwap(List<int> sequence, int i, int j)
+        public List<int> SiteSwap(List<int> sequence, int i, int j)
         {
             List<int> copy = new List<int>();
             for (int k = 0; k < sequence.Count; k++)
@@ -117,12 +117,17 @@ namespace JugglingApp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SiteSwap ssf = new SiteSwap();
-            ssf.Show();
-
-            /*currentSeq = SiteSwap(currentSeq, 0, 1);
+            SiteSwapForm ssf = new SiteSwapForm();
+            ssf.ShowDialog();
+            label2.Text = ssf.i + " " + ssf.j;
+            currentSeq = SiteSwap(currentSeq, ssf.i, ssf.j);
             ClearSequence();
-            DrawSequence(currentSeq);*/
+            DrawSequence(currentSeq);
+            sequenceText.Text = "";
+            for (int i = 0; i < currentSeq.Count; i++)
+            {
+                sequenceText.Text += currentSeq[i];
+            }
         }
     }
 }

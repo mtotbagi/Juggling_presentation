@@ -16,7 +16,7 @@ namespace JugglingApp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            BaseForm baseForm = new BaseForm();
+            Form baseForm = new BaseForm();
             Application.Run(baseForm);
         }
     }

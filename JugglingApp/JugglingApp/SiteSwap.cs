@@ -10,11 +10,12 @@ using System.Windows.Forms;
 
 namespace JugglingApp
 {
-    public partial class SiteSwap : Form
+    public partial class SiteSwapForm : Form
     {
-        public int num1;
-        public int num2;
-        public SiteSwap()
+        public int i;
+        public int j;
+
+        public SiteSwapForm()
         {
             InitializeComponent();
         }
@@ -23,9 +24,10 @@ namespace JugglingApp
         {
             try
             {
-                num1 = int.Parse(textBox1.Text);
-                num2 = int.Parse(textBox2.Text);
+                i = int.Parse(textBox1.Text);
+                j = int.Parse(textBox2.Text);
                 Hide();
+
             }
             catch (FormatException)
             {

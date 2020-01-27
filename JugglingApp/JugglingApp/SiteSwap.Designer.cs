@@ -1,6 +1,6 @@
 ﻿namespace JugglingApp
 {
-    partial class SiteSwap
+    partial class SiteSwapForm
     {
         /// <summary>
         /// Required designer variable.
